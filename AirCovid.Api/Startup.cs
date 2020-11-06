@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using AirCovid.Api.Infra;
 using AirCovid.Api.Services.Commands;
 using AirCovid.Api.Services.Commands.Validation;
 using AirCovid.Data;
@@ -53,6 +54,7 @@ namespace AirCovid.Api
             services.AddScoped<IFlightRepository, FlightRepository>();
             services.AddScoped<IPassengerRepository, PassengerRepository>();
             services.AddScoped<ICreateCheckInCommandValidator, CreateCheckInCommandValidator>();
+            services.AddSingleton<ITimedAsyncLockFactory, TimedAsyncLockFactory>();
 
             services.AddProblemDetails();
         }

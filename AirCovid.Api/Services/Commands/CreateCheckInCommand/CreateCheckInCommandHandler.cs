@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+using AirCovid.Api.Infra;
 using AirCovid.Api.Services.Commands.Validation;
 using AirCovid.Data;
 using MediatR;
@@ -15,13 +16,14 @@ namespace AirCovid.Api.Services.Commands
     /// </summary>
     internal class CreateCheckInCommandHandler : IRequestHandler<CreateCheckInCommand, CreateCheckInsResponse>
     {
+        private readonly ITimedAsyncLockFactory _lockFactory;
         private readonly ICreateCheckInCommandValidator _validator;
         private readonly ICheckInRepository _checkInRepository;
 
-        private readonly ConcurrentDictionary<Guid, AsyncLock> _locks = new ConcurrentDictionary<Guid, AsyncLock>();
 
-        public CreateCheckInCommandHandler(ICreateCheckInCommandValidator validator, ICheckInRepository checkInRepository)
+        public CreateCheckInCommandHandler(ICreateCheckInCommandValidator validator, ICheckInRepository checkInRepository, ITimedAsyncLockFactory lockFactory)
         {
+            _lockFactory = lockFactory;
             _validator = validator;
             _checkInRepository = checkInRepository;
         }
@@ -29,18 +31,20 @@ namespace AirCovid.Api.Services.Commands
         public async Task<CreateCheckInsResponse> Handle(CreateCheckInCommand request, CancellationToken cancellationToken)
         {
             //We will get a lock per flight id. 
-            var @lock = _locks.GetOrAdd(request.CheckIn.FlightId, (guid) => new AsyncLock());
+            var asyncLock = _lockFactory.AcquireLock(request.CheckIn.FlightId);
 
-            using (await @lock.LockAsync(cancellationToken))
+            using (await asyncLock.LockAsync(cancellationToken))
             {
                 using (new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     var validationResult = await _validator.Validate(request, cancellationToken);
                     if (validationResult.Passed == false)
-                        return new CreateCheckInsResponse(validationResult);
+                        return new CreateCheckInsResponse { ValidationResult = validationResult };
 
                     await _checkInRepository.Add(request.CheckIn, cancellationToken);
-                    return new CreateCheckInsResponse(request.CheckIn.CheckInId);
+
+                    var response = new CreateCheckInsResponse { CheckInId = request.CheckIn.CheckInId };
+                    return response;
                 }
             }
         }

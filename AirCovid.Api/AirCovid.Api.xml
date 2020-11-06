@@ -11,6 +11,12 @@
             <param name="createModel">model supplied in tests refers to existing passenger</param>
             <returns></returns>
         </member>
+        <member name="T:AirCovid.Api.Infra.TimedAsyncLockFactory">
+            <summary>
+            A factory for creating AsyncLocks that expire afters some time of not being accessed
+            Currently expiry time is hard code, but it can be changed easily
+            </summary>
+        </member>
         <member name="T:AirCovid.Api.Models.CreateCheckInModel">
             <summary>
             User input model for CheckIn process
