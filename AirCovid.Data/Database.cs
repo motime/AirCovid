@@ -20,6 +20,18 @@ namespace AirCovid.Data
                     AllowedSeats = 5,
                     AllowedWeightPerPassenger = 5,
                 }
+            },
+
+            new Flight
+            {
+                FlightId = new Guid("66666666-6666-6666-6666-666666666666"),
+                Policy = new Policy()
+                {
+                    AllowedBagsPerPassenger = 2,
+                    AllowedTotalWeight = 25,
+                    AllowedSeats = 5,
+                    AllowedWeightPerPassenger = 5,
+                }
             }
         };
 
