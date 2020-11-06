@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AirCovid.Data;
 using AirCovid.Domain;
 using Swashbuckle.AspNetCore.Filters;
@@ -16,7 +18,7 @@ namespace AirCovid.Api.Models.SwaggerExamples
                     new Bag {Weight = 10},
                     new Bag {Weight = 5}
                 },
-                PassengerId = Database.Passengers[0].PassengerId
+                PassengerId = new Guid("00000000-0000-0000-0000-000000000010")
             };
         }
     }
