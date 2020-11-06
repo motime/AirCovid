@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>AirCovid.Api.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.1.1" />
+    <PackageReference Include="mediatr" Version="9.0.0" />
+    <PackageReference Include="mediatr.extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AirCovid.Data\AirCovid.Data.csproj" />
+    <ProjectReference Include="..\AirCovid.Domain\AirCovid.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AirCovid.Api.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+</Project>

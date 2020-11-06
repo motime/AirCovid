@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AirCovid.Api</name>
+    </assembly>
+    <members>
+        <member name="M:AirCovid.Api.Controllers.CheckInsController.PostCheckIn(System.Guid,AirCovid.Api.Models.CreateCheckInModel)">
+            <summary>
+            </summary>
+            <param name="flightId">Use: 55555555-5555-5555-5555-555555555555</param>
+            <param name="createModel">model supplied in tests refers to existing passenger</param>
+            <returns></returns>
+        </member>
+        <member name="T:AirCovid.Api.Models.CreateCheckInModel">
+            <summary>
+            User input model for CheckIn process
+            </summary>
+        </member>
+        <member name="P:AirCovid.Api.Models.CreateCheckInModel.PassengerId">
+            <summary>
+            Reference to Passengers 
+            </summary>
+        </member>
+        <member name="P:AirCovid.Api.Models.CreateCheckInModel.Bags">
+            <summary>
+            List of bags for CheckIn
+            </summary>
+        </member>
+        <member name="T:AirCovid.Api.Services.Commands.CreateCheckInCommandHandler">
+            <summary>
+            Handler for CreateCheckInCommand
+            </summary>
+        </member>
+    </members>
+</doc>
