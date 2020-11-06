@@ -15,8 +15,8 @@ namespace AirCovid.Api.Models.SwaggerExamples
             {
                 Bags = new List<Bag>()
                 {
-                    new Bag {Weight = 10},
-                    new Bag {Weight = 5}
+                    new Bag {Weight = 1},
+                    new Bag {Weight = 2}
                 },
                 PassengerId = new Guid("00000000-0000-0000-0000-000000000010")
             };
