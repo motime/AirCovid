@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 using AirCovid.Api.Infra;
 using AirCovid.Api.Services.Commands.Validation;
 using AirCovid.Data;
 using MediatR;
-using Nito.AsyncEx;
 
 namespace AirCovid.Api.Services.Commands
 {
@@ -35,17 +31,14 @@ namespace AirCovid.Api.Services.Commands
 
             using (await asyncLock.LockAsync(cancellationToken))
             {
-                using (new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    var validationResult = await _validator.Validate(request, cancellationToken);
-                    if (validationResult.Passed == false)
-                        return new CreateCheckInsResponse { ValidationResult = validationResult };
+                var validationResult = await _validator.Validate(request, cancellationToken);
+                if (validationResult.Passed == false)
+                    return new CreateCheckInsResponse {ValidationResult = validationResult};
 
-                    await _checkInRepository.Add(request.CheckIn, cancellationToken);
+                await _checkInRepository.Add(request.CheckIn, cancellationToken);
 
-                    var response = new CreateCheckInsResponse { CheckInId = request.CheckIn.CheckInId };
-                    return response;
-                }
+                var response = new CreateCheckInsResponse {CheckInId = request.CheckIn.CheckInId};
+                return response;
             }
         }
     }
