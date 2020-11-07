@@ -1,6 +1,6 @@
 # AirCovid
 
-Use `swagger` endpoint to run this api (defualts to http://localhost:58227/swagger/index.html)
+Use `swagger` endpoint to run this api (defaults to http://localhost:58227/swagger/index.html)
 
 #### Fake database contains:
 - ##### Flights  
